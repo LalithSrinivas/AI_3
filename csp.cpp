@@ -3,7 +3,7 @@
 
 using namespace std;
 
-
+//input as given in assignment statement and type any letter in last
 int main(){
 	//it has all the nodes with value subtracted by 1 i.e; 1 as 0 and 4 as 3 etc
 	vector<vector<int> > gmail;
@@ -19,6 +19,10 @@ int main(){
 		cin>>n2;
 		if(n1==0){
 			swit=1;
+			for(int i=ino;i<gphsize;i++){	//
+				vector<int> v1;
+				gphone.push_back(v1);
+			}
 			ino=0;
 		}
 		else{
@@ -47,6 +51,11 @@ int main(){
 		}
 	}
 
+	for(int i=ino;i<gemsize;i++){	
+		vector<int> v1;
+		gmail.push_back(v1);
+	}
+
 	cout<<"Ph "<<gphone.size()<<"\n";
 	for(int i=0;i<gphone.size();i++){
 		for(int j=0;j<gphone[i].size();j++){
@@ -69,8 +78,62 @@ int main(){
 
 	for(int i=0;i<gphsize;i++){
 		vector<int> vi(gphsize,0);
+		gphoneadm.push_back(vi);
 	}
-	//for(int i=0;i<gphoneadm;)
+	for(int i=0;i<gphone.size();i++){
+		for(int j=0;j<gphone[i].size();j++){
+			gphoneadm[i][gphone[i][j]]=1;
+		}
+	}
 
+	for(int i=0;i<gemsize;i++){
+		vector<int> vi(gemsize,0);
+		gmailadm.push_back(vi);
+	}
+	for(int i=0;i<gmail.size();i++){
+		for(int j=0;j<gmail[i].size();j++){
+			gmailadm[i][gmail[i][j]]=1;
+		}
+	}
+
+	//make a parents adjaceny list from adjmatrices
+	vector<vector<int> > phonepar;
+	vector<vector<int> > mailpar;
+
+	for(int i=0;i<gphoneadm.size();i++){
+		vector<int> vi;
+		for(int j=0;j<gphoneadm.size();j++){
+			if(gphoneadm[j][i]==1){
+				vi.push_back(j);
+			}
+		}
+		phonepar.push_back(vi);
+	}
+
+	for(int i=0;i<gmailadm.size();i++){
+		vector<int> vi;
+		for(int j=0;j<gmailadm.size();j++){
+			if(gmailadm[j][i]==1){
+				vi.push_back(j);
+			}
+		}
+		mailpar.push_back(vi);
+	}
+
+	cout<<"Phpar "<<gphone.size()<<"\n";
+	for(int i=0;i<phonepar.size();i++){
+		for(int j=0;j<phonepar[i].size();j++){
+			cout<<"("<<i+1<<","<<phonepar[i][j]+1<<") ";
+		}
+		cout<<phonepar[i].size()<<"\n";
+	}
+
+	cout<<"Gmpar "<<mailpar.size()<<"\n";
+	for(int i=0;i<mailpar.size();i++){
+		for(int j=0;j<mailpar[i].size();j++){
+			cout<<"("<<i+1<<","<<mailpar[i][j]+1<<") ";
+		}
+		cout<<mailpar[i].size()<<"\n";
+	}
 	return 0;
 }
