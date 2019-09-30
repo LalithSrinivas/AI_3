@@ -5,6 +5,7 @@ using namespace std;
 
 
 int main(){
+	//it has all the nodes with value subtracted by 1 i.e; 1 as 0 and 4 as 3 etc
 	vector<vector<int> > gmail;
 	vector<vector<int> > gphone;
 	int gphsize=0;
