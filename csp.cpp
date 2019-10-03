@@ -3,6 +3,74 @@
 
 using namespace std;
 
+bool checkForIncomingEdges(vector<int> mailParentNodes, vector<int> phoneParentNodes){
+	return !(mailParentNodes.size() > phoneParentNodes.size());
+}
+
+bool checkForOutgoingEdges(vector<int> mailNodes, vector<int> phoneNodes){
+	return !(mailNodes.size() > phoneNodes.size());
+}
+
+void generateConstranints(vector<vector<int> > gmail
+	, vector<vector<int> > gphone
+	, int gphsize, int gemsize
+	, vector<vector<int> > gphoneadm
+	, vector<vector<int> > gmailadm
+	, vector<vector<int> > phonepar
+	, vector<vector<int> > mailpar){
+	vector<vector<int>> verifiedPair;
+	for(int i=0; i< gemsize; i++){
+		vector<int> temp;
+		verifiedPair.push_back(temp);
+		for(int j=0; j< gphsize; j++){
+			verifiedPair[i].push_back(0);
+		}
+	}
+	for(int i=0; i< gmail.size(); i++){
+		for(int j=0; j< gphone.size(); j++){
+			if((!checkForIncomingEdges(mailpar[i], phonepar[j]) || !checkForOutgoingEdges(gmail[i], gphone[j]))){
+				cout << "!" << "(" << i+1 << ", " << j+1 << ")" << "\n";
+				verifiedPair[i][j] = -1;
+			}
+		}
+	}
+	for(int i=0; i< gmail.size(); i++){
+		if(gmail[i].size() != 0){
+			for(int j=0; j< gphone.size(); j++){
+				if(verifiedPair[i][j] ==0){
+					cout << "\nchildren constraint ("<<i+1 << ", " <<j+1<< "):" ;
+					for(int k =0; k< gmail[i].size(); k++){
+						for (int t=0; t< gphone[j].size(); t++){
+							if(verifiedPair[k][t] == 0)
+								cout << "(" << gmail[i][k]+1 << ", " << gphone[j][t]+1 << ")" << ", "; 
+						}
+					}
+				}
+			}
+		}
+		else{
+			cout << "size zero " << i+1 << "\n";
+		}
+	}
+	for(int i=0; i< mailpar.size(); i++){
+		if(mailpar[i].size() != 0){
+			for(int j=0; j< phonepar.size(); j++){
+				cout << "\nparents constraint ("<<i+1 << ", " <<j+1<< "):";
+				for(int k =0; k< mailpar[i].size(); k++){
+					for (int t=0; t< phonepar[j].size(); t++){
+						if(verifiedPair[i][j] == 0)
+						cout << "(" << mailpar[i][k]+1 << ", " << phonepar[j][t]+1 << ")" << ", "; 
+					}
+				}
+			}
+			cout << "\n";
+		}
+		else{
+			cout << "\nparents zero"<<"\n";
+		}
+	}
+
+}
 //input as given in assignment statement and type any letter in last
 int main(){
 	//it has all the nodes with value subtracted by 1 i.e; 1 as 0 and 4 as 3 etc
@@ -18,6 +86,8 @@ int main(){
 	while(cin>>n1){
 		cin>>n2;
 		if(n1==0){
+			if(swit == 1)
+				break;
 			swit=1;
 			for(int i=ino;i<gphsize;i++){	//
 				vector<int> v1;
@@ -135,5 +205,6 @@ int main(){
 		}
 		cout<<mailpar[i].size()<<"\n";
 	}
+	generateConstranints(gmail, gphone, gphsize, gemsize, gphoneadm, gmailadm, phonepar, mailpar);
 	return 0;
 }
