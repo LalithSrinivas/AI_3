@@ -33,13 +33,13 @@ void generateConstranints(vector<vector<int> > gmail
 		}
 	}
 	for(int i=0; i< gmail.size(); i++){
-		cout << "\nbijection check from mail side" << i << " mail-node: ";
+		cout << "\nbijection check from mail side " << i << " mail-node: ";
 		for(int j=0; j< gphone.size(); j++){
 			cout << "(" << i+1 << ", " << j+1 << ") ";
 		}
 	}
 	for(int i=0; i< gphone.size(); i++){
-		cout << "\nbijection check from mail side" << i << " phone-node: ";
+		cout << "\nbijection check from mail side " << i << " phone-node: ";
 		for(int j=0; j< gmail.size(); j++){
 			cout << "(" << j+1 << ", " << i+1 << ") ";
 		}
