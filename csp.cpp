@@ -14,8 +14,6 @@ bool checkForOutgoingEdges(vector<int> mailNodes, vector<int> phoneNodes){
 void generateConstranints(vector<vector<int> > gmail
 	, vector<vector<int> > gphone
 	, int gphsize, int gemsize
-	, vector<vector<int> > gphoneadm
-	, vector<vector<int> > gmailadm
 	, vector<vector<int> > phonepar
 	, vector<vector<int> > mailpar){
 	vector<vector<int>> verifiedPair;
@@ -35,10 +33,22 @@ void generateConstranints(vector<vector<int> > gmail
 		}
 	}
 	for(int i=0; i< gmail.size(); i++){
+		cout << "\nbijection check from mail side" << i << " mail-node: ";
+		for(int j=0; j< gphone.size(); j++){
+			cout << "(" << i+1 << ", " << j+1 << ") ";
+		}
+	}
+	for(int i=0; i< gphone.size(); i++){
+		cout << "\nbijection check from mail side" << i << " phone-node: ";
+		for(int j=0; j< gmail.size(); j++){
+			cout << "(" << j+1 << ", " << i+1 << ") ";
+		}
+	}
+	for(int i=0; i< gmail.size(); i++){
 		if(gmail[i].size() != 0){
 			for(int j=0; j< gphone.size(); j++){
 				if(verifiedPair[i][j] ==0){
-					cout << "\nchildren constraint ("<<i+1 << ", " <<j+1<< "):" ;
+					cout << "\nchildren constraint : ("<<i+1 << ", " <<j+1<< ") -> " ;
 					for(int k =0; k< gmail[i].size(); k++){
 						for (int t=0; t< gphone[j].size(); t++){
 							if(verifiedPair[k][t] == 0)
@@ -49,13 +59,13 @@ void generateConstranints(vector<vector<int> > gmail
 			}
 		}
 		else{
-			cout << "size zero " << i+1 << "\n";
+			cout << "\nsize zero " << i+1 << "\n";
 		}
 	}
 	for(int i=0; i< mailpar.size(); i++){
 		if(mailpar[i].size() != 0){
 			for(int j=0; j< phonepar.size(); j++){
-				cout << "\nparents constraint ("<<i+1 << ", " <<j+1<< "):";
+				cout << "\nparents constraint : ("<<i+1 << ", " <<j+1<< ") -> ";
 				for(int k =0; k< mailpar[i].size(); k++){
 					for (int t=0; t< phonepar[j].size(); t++){
 						if(verifiedPair[i][j] == 0)
@@ -205,6 +215,6 @@ int main(){
 		}
 		cout<<mailpar[i].size()<<"\n";
 	}
-	generateConstranints(gmail, gphone, gphsize, gemsize, gphoneadm, gmailadm, phonepar, mailpar);
+	generateConstranints(gmail, gphone, gphsize, gemsize, phonepar, mailpar);
 	return 0;
 }
