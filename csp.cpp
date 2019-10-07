@@ -16,8 +16,8 @@ void generateConstranints(vector<vector<int> > gmail
 	, int gphsize, int gemsize
 	, vector<vector<int> > phonepar
 	, vector<vector<int> > mailpar){
-	cout << "phone size: " << gphone.size() << "\n";
-	cout << "mail size: " << gmail.size() << "\n";
+	//cout << "phone size: " << gphone.size() << "\n";
+	//cout << "mail size: " << gmail.size() << "\n";
 	vector<vector<int>> verifiedPair;
 	for(int i=0; i< gemsize; i++){
 		vector<int> temp;
@@ -26,38 +26,38 @@ void generateConstranints(vector<vector<int> > gmail
 			verifiedPair[i].push_back(0);
 		}
 	}
-	cout << "line 1: ";
+	//cout << "line 1: ";
 	for(int i=0; i< gmail.size(); i++){
 		for(int j=0; j< gphone.size(); j++){
 			if((!checkForIncomingEdges(mailpar[i], phonepar[j]) || !checkForOutgoingEdges(gmail[i], gphone[j]))){
-				cout<< (int)(-1*(i*(gmail.size())+j)) << "\n";
+				cout<< (int)(-1*(i*(gphone.size())+j+1)) << "\n";
 				verifiedPair[i][j] = -1;
 			}
 		}
 	}
-	cout << "line 2: ";
+	//cout << "line 2: ";
 	//optional.
 	for(int i=0; i< gmail.size(); i++){
 		//cout << "\nbijection check from mail side " << i << " mail-node: ";
 		//cout << "!(" << i+1 << ", " << 1 << ") ";
 		for(int j=0; j< gphone.size(); j++){
 			for(int k=j+1;k<gphone.size();k++){
-				cout<< " " << (int)(-1*(i*(gmail.size())+j)) << " "<< (int)(-1*(i*(gmail.size())+k));
+				cout<< (int)(-1*(i*(gphone.size())+j+1)) << " "<< (int)(-1*(i*(gphone.size())+k+1))<<"\n";
 			}
 		}
 	}
-	cout << "\nline 3: ";
+	//cout << "\nline 3: ";
 	//optional.
 	for(int i=0; i< gphone.size(); i++){
 		//cout << "\nbijection check from mail side " << i << " phone-node: ";
 		//cout << "!(" << 1 << ", " << i+1 << ") ";
 		for(int j=0; j< gmail.size(); j++){
 			for(int k=j+1;k<gmail.size();k++){
-				cout<< " " << (int)(-1*(j*gmail.size()+i)) << " "<< (int)(-1*(k*gmail.size()+i));
+				cout<< (int)(-1*(j*gphone.size()+i+1)) << " "<< (int)(-1*(k*gphone.size()+i+1))<<"\n";
 			}
 		}
 	}
-	cout << "\n";
+	//cout << "\nChildren:";
 	// cout << "line 1: ";
 	for(int i=0; i< gmail.size(); i++){
 		if(gmail[i].size() != 0){
@@ -65,10 +65,10 @@ void generateConstranints(vector<vector<int> > gmail
 				if(verifiedPair[i][j] ==0){
 					//cout << "\nchildren constraint : ("<<i+1 << ", " <<j+1<< ") -> " ;
 					for(int k =0; k< gmail[i].size(); k++){
-						cout << (int)(-1*(i*gmail.size()+j));
+						cout <<(int)(-1*(i*gphone.size()+j+1));
 						for (int t=0; t< gphone[j].size(); t++){
 							if(verifiedPair[gmail[i][k]][gphone[j][t]] == 0)
-								cout << " " <<(int)(gmail[i][k]*gmail.size()+gphone[j][t]); 
+								cout << " " <<(int)(gmail[i][k]*gphone.size()+gphone[j][t]+1); 
 						}
 						cout<< "\n";
 					}
@@ -77,7 +77,7 @@ void generateConstranints(vector<vector<int> > gmail
 						for (int t=0; t< gphone[j].size(); t++){
 							for (int t1=t+1; t1< gphone[j].size(); t1++){
 								if(verifiedPair[gmail[i][k]][gphone[j][t]] == 0)
-									cout <<(int)(-1*(i*gmail.size()+j))<<" "<<(int)(-1*(gmail[i][k]*gmail.size()+gphone[j][t]))<<" " <<(int)(-1*gmail[i][k]*gmail.size())+gphone[j][t1]<<"\n"; 
+									cout <<(int)(-1*(i*gphone.size()+j+1))<<" "<<(int)(-1*(gmail[i][k]*gphone.size()+gphone[j][t]+1))<<" " <<(int)(-1*(gmail[i][k]*gphone.size()+gphone[j][t1]+1))<<"\n"; 
 							}
 						}
 					}
@@ -86,7 +86,7 @@ void generateConstranints(vector<vector<int> > gmail
 						for (int t=0; t< gmail[i].size(); t++){
 							for (int t1=t+1; t1< gmail[i].size(); t1++){
 								if(verifiedPair[gmail[i][k]][gphone[j][t]] == 0)
-									cout <<(int)(-1*(i*gmail.size()+j))<<" "<<(int)(-1*(gmail[i][t]*gmail.size()+gphone[j][k]))<<" " <<(int)(-1*gmail[i][t1]*gmail.size())+gphone[j][k]<<"\n"; 
+									cout <<(int)(-1*(i*gphone.size()+j+1))<<" "<<(int)(-1*(gmail[i][t]*gphone.size()+gphone[j][k])+1)<<" " <<(int)(-1*(gmail[i][t1]*gphone.size()+gphone[j][k]+1))<<"\n"; 
 							}
 						}
 					}
@@ -98,16 +98,17 @@ void generateConstranints(vector<vector<int> > gmail
 		// }
 	}
 
+	//cout<<"Parents:";
 	for(int i=0; i< mailpar.size(); i++){
 		if(mailpar[i].size() != 0){
 			for(int j=0; j< phonepar.size(); j++){
 				if(verifiedPair[i][j] ==0){
 					//cout << "\nchildren constraint : ("<<i+1 << ", " <<j+1<< ") -> " ;
 					for(int k =0; k< mailpar[i].size(); k++){
-						cout << (int)(-1*(i*mailpar.size()+j));
+						cout <<(int)(-1*(i*phonepar.size()+j+1));
 						for (int t=0; t< phonepar[j].size(); t++){
 							if(verifiedPair[mailpar[i][k]][phonepar[j][t]] == 0)
-								cout << " " <<(int)(mailpar[i][k]*mailpar.size()+phonepar[j][t]); 
+								cout << " " <<(int)(mailpar[i][k]*phonepar.size()+phonepar[j][t]+1); 
 						}
 						cout<< "\n";
 					}
@@ -116,7 +117,7 @@ void generateConstranints(vector<vector<int> > gmail
 						for (int t=0; t< phonepar[j].size(); t++){
 							for (int t1=t+1; t1< phonepar[j].size(); t1++){
 								if(verifiedPair[mailpar[i][k]][phonepar[j][t]] == 0)
-									cout <<(int)(-1*(i*mailpar.size()+j))<<" "<<(int)(-1*(mailpar[i][k]*gmail.size()+phonepar[j][t]))<<" " <<(int)(-1*mailpar[i][k]*gmail.size())+phonepar[j][t1]<<"\n"; 
+									cout <<(int)(-1*(i*phonepar.size()+j+1))<<" "<<(int)(-1*(mailpar[i][k]*gphone.size()+phonepar[j][t]+1))<<" " <<(int)(-1*(mailpar[i][k]*gphone.size()+phonepar[j][t1]+1))<<"\n"; 
 							}
 						}
 					}
@@ -125,16 +126,16 @@ void generateConstranints(vector<vector<int> > gmail
 						for (int t=0; t< mailpar[i].size(); t++){
 							for (int t1=t+1; t1< mailpar[i].size(); t1++){
 								if(verifiedPair[mailpar[i][k]][phonepar[j][t]] == 0)
-									cout <<(int)(-1*(i*gmail.size()+j))<<" "<<(int)(-1*(mailpar[i][t]*gmail.size()+phonepar[j][k]))<<" " <<(int)(-1*mailpar[i][t1]*gmail.size())+phonepar[j][k]<<"\n"; 
+									cout <<(int)(-1*(i*gphone.size()+j+1))<<" "<<(int)(-1*(mailpar[i][t]*gphone.size()+phonepar[j][k]+1))<<" " <<(int)(-1*(mailpar[i][t1]*gphone.size()+phonepar[j][k]+1))<<"\n"; 
 							}
 						}
 					}
 				}
 			}
 		}
-		else{
-			cout << "\nparents zero"<<"\n";
-		}
+		// else{
+		// 	cout << "\nparents zero"<<"\n";
+		// }
 	}
 
 }
@@ -147,6 +148,8 @@ int main(int argc, const char * argv[]){
 	//it has all the nodes with value subtracted by 1 i.e; 1 as 0 and 4 as 3 etc
 	vector<vector<int> > gmail;
 	vector<vector<int> > gphone;
+	vector<vector<int> > phonepar;
+	vector<vector<int> > mailpar;
 	int gphsize=0;
 	int gemsize=0;
 
@@ -161,6 +164,7 @@ int main(int argc, const char * argv[]){
 				for(int i=gphone.size();i<gphsize;i++){	//
 					vector<int> v1;
 					gphone.push_back(v1);
+					phonepar.push_back(v1);
 				}
 			}
 		}
@@ -173,9 +177,11 @@ int main(int argc, const char * argv[]){
 					for(int i=gphone.size();i<gphsize;i++){	//
 						vector<int> v1;
 						gphone.push_back(v1);
+						phonepar.push_back(v1);
 					}
 				}
 				gphone[n1-1].push_back(n2-1);
+				phonepar[n2-1].push_back(n1-1);
 			}
 			//for mail
 			if(swit==1){
@@ -185,9 +191,11 @@ int main(int argc, const char * argv[]){
 					for(int i=gmail.size();i<gemsize;i++){	
 						vector<int> v1;
 						gmail.push_back(v1);
+						mailpar.push_back(v1);
 					}
 				}
 				gmail[n1-1].push_back(n2-1);
+				mailpar[n2-1].push_back(n1-1);
 			}
 		}
 	}
@@ -213,71 +221,23 @@ int main(int argc, const char * argv[]){
 			cout<<"("<<i+1<<","<<gmail[i][j]+1<<") ";
 		}
 		cout<<gmail[i].size()<<"\n";
+	}
+
+	cout<<"Phpar "<<phonepar.size()<<"\n";
+	for(int i=0;i<phonepar.size();i++){
+		for(int j=0;j<phonepar[i].size();j++){
+			cout<<"("<<i+1<<","<<phonepar[i][j]+1<<") ";
+		}
+		cout<<phonepar[i].size()<<"\n";
+	}
+
+	cout<<"Gmpar "<<mailpar.size()<<"\n";
+	for(int i=0;i<mailpar.size();i++){
+		for(int j=0;j<mailpar[i].size();j++){
+			cout<<"("<<i+1<<","<<mailpar[i][j]+1<<") ";
+		}
+		cout<<mailpar[i].size()<<"\n";
 	}*/
-
-	//adjacency matrices help us to find parents adjacency list
-	vector<vector<int> > gphoneadm;
-	vector<vector<int> > gmailadm;;
-
-	for(int i=0;i<gphsize;i++){
-		vector<int> vi(gphsize,0);
-		gphoneadm.push_back(vi);
-	}
-	for(int i=0;i<gphone.size();i++){
-		for(int j=0;j<gphone[i].size();j++){
-			gphoneadm[i][gphone[i][j]]=1;
-		}
-	}
-
-	for(int i=0;i<gemsize;i++){
-		vector<int> vi(gemsize,0);
-		gmailadm.push_back(vi);
-	}
-	for(int i=0;i<gmail.size();i++){
-		for(int j=0;j<gmail[i].size();j++){
-			gmailadm[i][gmail[i][j]]=1;
-		}
-	}
-
-	//make a parents adjaceny list from adjmatrices
-	vector<vector<int> > phonepar;
-	vector<vector<int> > mailpar;
-
-	for(int i=0;i<gphoneadm.size();i++){
-		vector<int> vi;
-		for(int j=0;j<gphoneadm.size();j++){
-			if(gphoneadm[j][i]==1){
-				vi.push_back(j);
-			}
-		}
-		phonepar.push_back(vi);
-	}
-
-	for(int i=0;i<gmailadm.size();i++){
-		vector<int> vi;
-		for(int j=0;j<gmailadm.size();j++){
-			if(gmailadm[j][i]==1){
-				vi.push_back(j);
-			}
-		}
-		mailpar.push_back(vi);
-	}
-
-	// cout<<"Phpar "<<phonepar.size()<<"\n";
-	// for(int i=0;i<phonepar.size();i++){
-	// 	for(int j=0;j<phonepar[i].size();j++){
-	// 		cout<<"("<<i+1<<","<<phonepar[i][j]+1<<") ";
-	// 	}
-	// 	cout<<phonepar[i].size()<<"\n";
-	// }
-
-	// cout<<"Gmpar "<<mailpar.size()<<"\n";
-	// for(int i=0;i<mailpar.size();i++){
-	// 	for(int j=0;j<mailpar[i].size();j++){
-	// 		cout<<"("<<i+1<<","<<mailpar[i][j]+1<<") ";
-	// 	}
-	// 	cout<<mailpar[i].size()<<"\n";
-	// }
 	generateConstranints(gmail, gphone, gphsize, gemsize, phonepar, mailpar);
 	return 0;
 }
