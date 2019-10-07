@@ -16,7 +16,8 @@ void generateConstranints(vector<vector<int> > gmail
 	, int gphsize, int gemsize
 	, vector<vector<int> > phonepar
 	, vector<vector<int> > mailpar){
-
+	cout << "phone size: " << gphone.size() << "\n";
+	cout << "mail size: " << gmail.size() << "\n";
 	vector<vector<int>> verifiedPair;
 	for(int i=0; i< gemsize; i++){
 		vector<int> temp;
@@ -25,48 +26,49 @@ void generateConstranints(vector<vector<int> > gmail
 			verifiedPair[i].push_back(0);
 		}
 	}
-
+	cout << "line 1: ";
 	for(int i=0; i< gmail.size(); i++){
 		for(int j=0; j< gphone.size(); j++){
 			if((!checkForIncomingEdges(mailpar[i], phonepar[j]) || !checkForOutgoingEdges(gmail[i], gphone[j]))){
-				cout<< (-1)*(i*gmail.size()+j) << "\n";
+				cout<< (int)(-1*(i*(gmail.size())+j)) << "\n";
 				verifiedPair[i][j] = -1;
 			}
 		}
 	}
-
+	cout << "line 2: ";
 	//optional.
 	for(int i=0; i< gmail.size(); i++){
 		//cout << "\nbijection check from mail side " << i << " mail-node: ";
 		//cout << "!(" << i+1 << ", " << 1 << ") ";
 		for(int j=0; j< gphone.size(); j++){
 			for(int k=j+1;k<gphone.size();k++){
-				cout<< (-1)*(i*gmail.size()+j) << " "<< (-1)*(i*gmail.size()+k);
+				cout<< " " << (int)(-1*(i*(gmail.size())+j)) << " "<< (int)(-1*(i*(gmail.size())+k));
 			}
 		}
 	}
-
+	cout << "\nline 3: ";
 	//optional.
 	for(int i=0; i< gphone.size(); i++){
 		//cout << "\nbijection check from mail side " << i << " phone-node: ";
 		//cout << "!(" << 1 << ", " << i+1 << ") ";
 		for(int j=0; j< gmail.size(); j++){
 			for(int k=j+1;k<gmail.size();k++){
-				cout<< (-1)*(j*gmail.size()+i) << " "<< (-1)*(k*gmail.size()+i);
+				cout<< " " << (int)(-1*(j*gmail.size()+i)) << " "<< (int)(-1*(k*gmail.size()+i));
 			}
 		}
 	}
-
+	cout << "\n";
+	// cout << "line 1: ";
 	for(int i=0; i< gmail.size(); i++){
 		if(gmail[i].size() != 0){
 			for(int j=0; j< gphone.size(); j++){
 				if(verifiedPair[i][j] ==0){
 					//cout << "\nchildren constraint : ("<<i+1 << ", " <<j+1<< ") -> " ;
 					for(int k =0; k< gmail[i].size(); k++){
-						cout << (-1)*(i*gmail.size()+j);
+						cout << (int)(-1*(i*gmail.size()+j));
 						for (int t=0; t< gphone[j].size(); t++){
 							if(verifiedPair[gmail[i][k]][gphone[j][t]] == 0)
-								cout << " " <<(gmail[i][k]*gmail.size()+gphone[j][t]); 
+								cout << " " <<(int)(gmail[i][k]*gmail.size()+gphone[j][t]); 
 						}
 						cout<< "\n";
 					}
@@ -75,7 +77,7 @@ void generateConstranints(vector<vector<int> > gmail
 						for (int t=0; t< gphone[j].size(); t++){
 							for (int t1=t+1; t1< gphone[j].size(); t1++){
 								if(verifiedPair[gmail[i][k]][gphone[j][t]] == 0)
-									cout <<(-1)*(i*gmail.size()+j)<<" "<<(-1)*(gmail[i][k]*gmail.size()+gphone[j][t])<<" " <<(-1)*gmail[i][k]*gmail.size()+gphone[j][t1]<<"\n"; 
+									cout <<(int)(-1*(i*gmail.size()+j))<<" "<<(int)(-1*(gmail[i][k]*gmail.size()+gphone[j][t]))<<" " <<(int)(-1*gmail[i][k]*gmail.size())+gphone[j][t1]<<"\n"; 
 							}
 						}
 					}
@@ -84,7 +86,7 @@ void generateConstranints(vector<vector<int> > gmail
 						for (int t=0; t< gmail[i].size(); t++){
 							for (int t1=t+1; t1< gmail[i].size(); t1++){
 								if(verifiedPair[gmail[i][k]][gphone[j][t]] == 0)
-									cout <<(-1)*(i*gmail.size()+j)<<" "<<(-1)*(gmail[i][t]*gmail.size()+gphone[j][k])<<" " <<(-1)*gmail[i][t1]*gmail.size()+gphone[j][k]<<"\n"; 
+									cout <<(int)(-1*(i*gmail.size()+j))<<" "<<(int)(-1*(gmail[i][t]*gmail.size()+gphone[j][k]))<<" " <<(int)(-1*gmail[i][t1]*gmail.size())+gphone[j][k]<<"\n"; 
 							}
 						}
 					}
@@ -102,10 +104,10 @@ void generateConstranints(vector<vector<int> > gmail
 				if(verifiedPair[i][j] ==0){
 					//cout << "\nchildren constraint : ("<<i+1 << ", " <<j+1<< ") -> " ;
 					for(int k =0; k< mailpar[i].size(); k++){
-						cout << (-1)*(i*mailpar.size()+j);
+						cout << (int)(-1*(i*mailpar.size()+j));
 						for (int t=0; t< phonepar[j].size(); t++){
 							if(verifiedPair[mailpar[i][k]][phonepar[j][t]] == 0)
-								cout << " " <<(mailpar[i][k]*mailpar.size()+phonepar[j][t]); 
+								cout << " " <<(int)(mailpar[i][k]*mailpar.size()+phonepar[j][t]); 
 						}
 						cout<< "\n";
 					}
@@ -114,7 +116,7 @@ void generateConstranints(vector<vector<int> > gmail
 						for (int t=0; t< phonepar[j].size(); t++){
 							for (int t1=t+1; t1< phonepar[j].size(); t1++){
 								if(verifiedPair[mailpar[i][k]][phonepar[j][t]] == 0)
-									cout <<(-1)*(i*mailpar.size()+j)<<" "<<(-1)*(mailpar[i][k]*gmail.size()+phonepar[j][t])<<" " <<(-1)*mailpar[i][k]*gmail.size()+phonepar[j][t1]<<"\n"; 
+									cout <<(int)(-1*(i*mailpar.size()+j))<<" "<<(int)(-1*(mailpar[i][k]*gmail.size()+phonepar[j][t]))<<" " <<(int)(-1*mailpar[i][k]*gmail.size())+phonepar[j][t1]<<"\n"; 
 							}
 						}
 					}
@@ -123,7 +125,7 @@ void generateConstranints(vector<vector<int> > gmail
 						for (int t=0; t< mailpar[i].size(); t++){
 							for (int t1=t+1; t1< mailpar[i].size(); t1++){
 								if(verifiedPair[mailpar[i][k]][phonepar[j][t]] == 0)
-									cout <<(-1)*(i*gmail.size()+j)<<" "<<(-1)*(mailpar[i][t]*gmail.size()+phonepar[j][k])<<" " <<(-1)*mailpar[i][t1]*gmail.size()+phonepar[j][k]<<"\n"; 
+									cout <<(int)(-1*(i*gmail.size()+j))<<" "<<(int)(-1*(mailpar[i][t]*gmail.size()+phonepar[j][k]))<<" " <<(int)(-1*mailpar[i][t1]*gmail.size())+phonepar[j][k]<<"\n"; 
 							}
 						}
 					}
@@ -137,7 +139,7 @@ void generateConstranints(vector<vector<int> > gmail
 
 }
 
-int main(){
+int main(int argc, const char * argv[]){
 	ifstream f;
 	f.open(argv[1]);
 
