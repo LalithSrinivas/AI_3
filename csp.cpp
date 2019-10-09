@@ -190,6 +190,9 @@ int main(int argc, const char * argv[]){
 	vector<vector<int> > gphone;
 	vector<vector<int> > phonepar;
 	vector<vector<int> > mailpar;
+
+	vector< pair<int,int> > mailedg;
+	vector< pair<int,int> > phoneedg;
 	int gphsize=0;
 	int gemsize=0;
 
@@ -222,6 +225,7 @@ int main(int argc, const char * argv[]){
 				}
 				gphone[n1-1].push_back(n2-1);
 				phonepar[n2-1].push_back(n1-1);
+				phoneedg.push_back(make_pair(n1-1,n2-1));
 			}
 			//for mail
 			if(swit==1){
@@ -236,6 +240,7 @@ int main(int argc, const char * argv[]){
 				}
 				gmail[n1-1].push_back(n2-1);
 				mailpar[n2-1].push_back(n1-1);
+				mailedg.push_back(make_pair(n1-1,n2-1));
 			}
 		}
 	}
