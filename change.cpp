@@ -24,39 +24,6 @@ pair< int,vector<string> > generateConstranints(vector<vector<int> > gmail
 	vector<string> cons;
 	
 	//cout<<"Edg cons1\n";
-	for(int edge=0; edge < phoneedg.size(); edge++){
-		int j1 = phoneedg[edge].first;
-		int j2 = phoneedg[edge].second;
-		for(int i1=0; i1< gmail.size(); i1++){
-			for(int i2=0; i2< gmail.size(); i2++){
-				if(i2 != i1){
-					string s1 = "";
-					s1 = s1+to_string((int)(gmail.size()*gphone.size()+i1*gmail.size()+i2+1)) + " ";
-					s1 = s1 + to_string((int)(-1*(i1*(gphone.size())+j1+1))) + " " + to_string((int)(-1*(i2*(gphone.size())+j2+1))) + " ";
-					s1 = s1 + "0\n";
-					cons.push_back(s1);
-					count++;
-				}
-			}
-		}
-	}
-
-	for(int edge=0; edge < mailedg.size(); edge++){
-		int i1 = mailedg[edge].first;
-		int i2 = mailedg[edge].second;
-		for(int j1=0; i1< gphone.size(); j1++){
-			for(int j2=0; j2< gphone.size(); j2++){
-				if(j2 != j1){
-					string s1 = "";
-					s1 = s1+to_string((int)(gmail.size()*gphone.size()+gmail.size()*gmail.size()+j1*gphone.size()+j2+1)) + " ";
-					s1 = s1 + to_string((int)(-1*(i1*(gphone.size())+j1+1))) + " " + to_string((int)(-1*(i2*(gphone.size())+j2+1))) + " ";
-					s1 = s1 + "0\n";
-					cons.push_back(s1);
-					count++;
-				}
-			}
-		}
-	}
 
 	//cout<<"Edg cons2\n";
 	vector<vector<int>> edgeMapMail;
@@ -107,14 +74,46 @@ pair< int,vector<string> > generateConstranints(vector<vector<int> > gmail
 				s1 = to_string((int)(gmail.size()*gphone.size()+gmail.size()*gmail.size()+j1*gphone.size()+j2+1)) + " 0\n";
 			}
 			else{
-				s1 = to_string((int)(gmail.size()*gphone.size()+gmail.size()*gmail.size()+j1*gphone.size()+j2+1)) + " 0\n";
+				s1 = to_string((int)(-1)*(gmail.size()*gphone.size()+gmail.size()*gmail.size()+j1*gphone.size()+j2+1)) + " 0\n";
 			}
 			cons.push_back(s1);
 			count++;
 			//}
 		}
 	}
+	for(int edge=0; edge < phoneedg.size(); edge++){
+		int j1 = phoneedg[edge].first;
+		int j2 = phoneedg[edge].second;
+		for(int i1=0; i1< gmail.size(); i1++){
+			for(int i2=0; i2< gmail.size(); i2++){
+				if(i2 != i1){
+					string s1 = "";
+					s1 = s1+to_string((int)(gmail.size()*gphone.size()+i1*gmail.size()+i2+1)) + " ";
+					s1 = s1 + to_string((int)(-1*(i1*(gphone.size())+j1+1))) + " " + to_string((int)(-1*(i2*(gphone.size())+j2+1))) + " ";
+					s1 = s1 + "0\n";
+					cons.push_back(s1);
+					count++;
+				}
+			}
+		}
+	}
 
+	for(int edge=0; edge < mailedg.size(); edge++){
+		int i1 = mailedg[edge].first;
+		int i2 = mailedg[edge].second;
+		for(int j1=0; i1< gphone.size(); j1++){
+			for(int j2=0; j2< gphone.size(); j2++){
+				if(j2 != j1){
+					string s1 = "";
+					s1 = s1+to_string((int)(gmail.size()*gphone.size()+gmail.size()*gmail.size()+j1*gphone.size()+j2+1)) + " ";
+					s1 = s1 + to_string((int)(-1*(i1*(gphone.size())+j1+1))) + " " + to_string((int)(-1*(i2*(gphone.size())+j2+1))) + " ";
+					s1 = s1 + "0\n";
+					cons.push_back(s1);
+					count++;
+				}
+			}
+		}
+	}
 	vector<vector<int>> verifiedPair;
 	for(int i=0; i< gmail.size(); i++){
 		vector<int> temp;
