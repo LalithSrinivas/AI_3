@@ -39,12 +39,23 @@ pair< int,vector<string> > generateConstranints(vector<vector<int> > gmail
 		s1 = s1 + "0\n";
 		cons.push_back(s1);
 	}
+	vector<vector<int>> edgeMap;
+	for(int i1=0; i1< gmail.size(); i1++){
+		vector<int> temp;
+		for(int i2=0; i2< gmail.size(); i2++){
+			temp.push_back(0);
+		}
+		edgeMap.push_back(temp);
+	}
+	for(int i=0; i< mailedg.size(); i++){
+		edgeMap[mailedg[i].first][mailedg[i].second] = 1;
+	}
+
 	for(int i1=0; i1< gmail.size(); i1++){
 		string s1 = "";
 		for(int i2 =0; i2< gmail.size(); i2++){
 			if(i1!= i2){
-				pair<int, int> key = make_pair(i1, i2);
-				if(find(mailedg.begin(), mailedg.end(), key) != mailedg.end()){
+				if(edgeMap[i1][i2] == 1){
 					s1 = to_string((int)(gmail.size()*gphone.size()*(i1+i2) + (i1-i2))) + " 0\n";
 				}else{
 					s1 = to_string((int)(-1*gmail.size()*gphone.size()*(i1+i2) + (i1-i2))) + " 0\n";
