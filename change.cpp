@@ -24,7 +24,7 @@ pair< int,vector<string> > generateConstranints(vector<vector<int> > gmail
 	vector<string> cons;
 	
 	//cout<<"Edg cons1\n";
-	/*for(int edge=0; edge < phoneedg.size(); edge++){
+	for(int edge=0; edge < phoneedg.size(); edge++){
 		int j1 = phoneedg[edge].first;
 		int j2 = phoneedg[edge].second;
 		for(int i1=0; i1< gmail.size(); i1++){
@@ -41,27 +41,53 @@ pair< int,vector<string> > generateConstranints(vector<vector<int> > gmail
 		}
 	}
 
+	for(int edge=0; edge < mailedg.size(); edge++){
+		int i1 = mailedg[edge].first;
+		int i2 = mailedg[edge].second;
+		for(int j1=0; i1< gphone.size(); j1++){
+			for(int j2=0; j2< gphone.size(); j2++){
+				if(j2 != j1){
+					string s1 = "";
+					s1 = s1+to_string((int)(gmail.size()*gphone.size()+gmail.size()*gmail.size()+j1*gphone.size()+j2+1)) + " ";
+					s1 = s1 + to_string((int)(-1*(i1*(gphone.size())+j1+1))) + " " + to_string((int)(-1*(i2*(gphone.size())+j2+1))) + " ";
+					s1 = s1 + "0\n";
+					cons.push_back(s1);
+					count++;
+				}
+			}
+		}
+	}
+
 	//cout<<"Edg cons2\n";
-	vector<vector<int>> edgeMap;
+	vector<vector<int>> edgeMapMail;
+	vector<vector<int>> edgeMapPhone;
 	for(int i1=0; i1< gmail.size(); i1++){
 		vector<int> temp;
 		for(int i2=0; i2< gmail.size(); i2++){
 			temp.push_back(0);
 		}
-		edgeMap.push_back(temp);
+		edgeMapMail.push_back(temp);
 	}
-
+	for(int i1=0; i1< gphone.size(); i1++){
+		vector<int> temp;
+		for(int i2=0; i2< gphone.size(); i2++){
+			temp.push_back(0);
+		}
+		edgeMapPhone.push_back(temp);
+	}
 	//cout<<"Edg cons21\n";
 	for(int i=0; i< mailedg.size(); i++){
-		edgeMap[mailedg[i].first][mailedg[i].second] = 1;
+		edgeMapMail[mailedg[i].first][mailedg[i].second] = 1;
 	}
-
+	for(int i=0; i< phoneedg.size(); i++){
+		edgeMapPhone[phoneedg[i].first][phoneedg[i].second] = 1;
+	}
 	//cout<<"Edg cons3\n";
 	for(int i1=0; i1< gmail.size(); i1++){
 		string s1 = "";
 		for(int i2 =0; i2< gmail.size(); i2++){
 			//if(i1!= i2){
-			if(edgeMap[i1][i2] == 1){
+			if(edgeMapMail[i1][i2] == 1){
 				s1 = to_string((int)(gmail.size()*gphone.size()+i1*gmail.size()+i2+1)) + " 0\n";
 			}
 			else{
@@ -71,7 +97,23 @@ pair< int,vector<string> > generateConstranints(vector<vector<int> > gmail
 			count++;
 			//}
 		}
-	}*/
+	}
+
+	for(int j1=0; j1< gphone.size(); j1++){
+		string s1 = "";
+		for(int j2 =0; j2< gphone.size(); j2++){
+			//if(i1!= i2){
+			if(edgeMapPhone[j1][j2] == 1){
+				s1 = to_string((int)(gmail.size()*gphone.size()+gmail.size()*gmail.size()+j1*gphone.size()+j2+1)) + " 0\n";
+			}
+			else{
+				s1 = to_string((int)(gmail.size()*gphone.size()+gmail.size()*gmail.size()+j1*gphone.size()+j2+1)) + " 0\n";
+			}
+			cons.push_back(s1);
+			count++;
+			//}
+		}
+	}
 
 	vector<vector<int>> verifiedPair;
 	for(int i=0; i< gmail.size(); i++){
@@ -187,7 +229,7 @@ pair< int,vector<string> > generateConstranints(vector<vector<int> > gmail
 	}
 
 	////cout<<"Parents:";
-	/*for(int i=0; i< mailpar.size(); i++){
+	for(int i=0; i< mailpar.size(); i++){
 		if(mailpar[i].size() != 0){
 			for(int j=0; j< phonepar.size(); j++){
 				if(verifiedPair[i][j] ==0){
@@ -233,7 +275,7 @@ pair< int,vector<string> > generateConstranints(vector<vector<int> > gmail
 		// else{
 		// 	//cout << "\nparents zero"<<"\n";
 		// }
-	}*/
+	}
 	return make_pair(count,cons);
 }
 
