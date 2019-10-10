@@ -15,12 +15,28 @@ pair< int,vector<string> > generateConstranints(vector<vector<int> > gmail
 	, vector<vector<int> > gphone
 	, int gphsize, int gemsize
 	, vector<vector<int> > phonepar
-	, vector<vector<int> > mailpar){
+	, vector<vector<int> > mailpar
+	,vector< pair<int,int> > mailedg
+	,vector< pair<int,int> > phoneedg){
 	//cout << "phone size: " << gphone.size() << "\n";
 	//cout << "mail size: " << gmail.size() << "\n";
 	int count=0;
 	vector<string> cons;
 	vector<vector<int>> verifiedPair;
+	for(int edge=0; edge < phoneedg.size(); edge++){
+		int j1 = phoneedg[edge].first;
+		int j2 = phoneedg[edge].second;
+		string s1 = to_string((int)(-1*(gmail.size()*gphone.size()*(j1+j2)+(j1-j2)))) + "";
+		for(int i1=0; i1< gmail.size(); i1++){
+			for(int i2=0; i2< gmail.size(); i2++){
+				if(i2 != i1){
+					s1 = s1+to_string((int)(((-1*(gmail.size()*gphone.size()*(i1+i2)+(i1-i2)))))) + " ";
+					s1 = s1 + to_string((int)(-1*(i1*(gphone.size())+j1+1))) + " " + to_string((int)(-1*(i2*(gphone.size())+j2+1))) + " ";
+				}
+			}
+		}
+		s1 = s1 + "0\n";
+	}
 	for(int i=0; i< gemsize; i++){
 		vector<int> temp;
 		verifiedPair.push_back(temp);
@@ -283,7 +299,7 @@ int main(int argc, const char * argv[]){
 		}
 		cout<<mailpar[i].size()<<"\n";
 	}*/
-	pair< int,vector<string> > ans=generateConstranints(gmail, gphone, gphsize, gemsize, phonepar, mailpar);
+	pair< int,vector<string> > ans=generateConstranints(gmail, gphone, gphsize, gemsize, phonepar, mailpar, mailedg, phoneedg);
 	fstream outfile;
 	string filname1 = ".satinput";
 	string inpo(argv[1]);
